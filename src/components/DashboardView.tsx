@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { WinterArcState } from '../data/initialState';
 import { PHASES } from '../data/roadmapData';
-import { CheckCircle2, Circle, AlertCircle, ArrowRight, Sparkles, Flame, Clock, BookOpen, Mic, Database, Camera, Palette } from 'lucide-react';
+import { CheckCircle2, Circle, ArrowRight, Clock, BookOpen, Mic, Database, Camera, Palette, Moon, Brain, Dumbbell, Sparkles, Compass, ChevronDown, ChevronUp } from 'lucide-react';
 import defaultPortraitImg from '../assets/images/hussnain_winter_portrait_1790968594204.jpg';
 import bgBrutalistImg from '../assets/images/bg_brutalist_frost_1790968605374.jpg';
 import bgAlpineImg from '../assets/images/bg_alpine_winter_1790968617391.jpg';
+import bgObsidianImg from '../assets/images/bg_obsidian_studio_1791020510747.jpg';
+import { WinterArcPictureStudio } from './WinterArcPictureStudio';
 
 interface DashboardViewProps {
   state: WinterArcState;
@@ -21,6 +23,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onSelectDay,
   onOpenPictureStudio
 }) => {
+  const [isStudioExpanded, setIsStudioExpanded] = useState<boolean>(false);
   const currentDayIndex = state.currentDayIndex;
   
   // Find current day task across all weeks
@@ -74,33 +77,48 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   // Background image source for hero scrim
   const heroBgSrc = state.activeBackgroundId === 'alpine-dawn'
     ? bgAlpineImg
+    : state.activeBackgroundId === 'obsidian-monolith'
+    ? bgObsidianImg
     : state.activeBackgroundId === 'brutalist-frost'
     ? bgBrutalistImg
     : null;
 
+  const handleInlineSavePicture = (
+    imageUri: string,
+    bgId: string,
+    effect: 'frost' | 'obsidian' | 'vignette' | 'clean'
+  ) => {
+    onUpdateState(prev => ({
+      ...prev,
+      customProfileImage: imageUri,
+      activeBackgroundId: bgId,
+      backgroundBlendEffect: effect
+    }));
+  };
+
   return (
-    <div className="space-y-8 pb-12">
-      {/* 01 Executive Banner & Identity Section with Unique Background Scrim */}
-      <section className="relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950 p-6 sm:p-8 backdrop-blur-sm group">
-        {/* Unique Background Layer */}
+    <div className="space-y-8 pb-12 text-[#111827]">
+      {/* 01 Intentional Deep Navy Hero Banner (Section 25: Dark section allowed for major identity statement) */}
+      <section className="relative overflow-hidden rounded-xl border border-[#0B1F3A]/20 bg-[#0B1F3A] p-6 sm:p-8 shadow-sm group">
+        {/* Subtle backdrop overlay */}
         {heroBgSrc && (
-          <div className="absolute inset-0 z-0 opacity-25 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none">
+          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
             <img
               src={heroBgSrc}
-              alt="Winter Arc Background"
+              alt="Winter Arc Atmosphere"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/85 to-neutral-950/70" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0B1F3A] via-[#0B1F3A]/90 to-[#0B1F3A]/70" />
           </div>
         )}
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-start gap-4">
-            {/* User Avatar with interactive click to customize */}
+          <div className="flex items-start gap-4 sm:gap-5">
+            {/* User Portrait with quick studio trigger */}
             <div
-              onClick={onOpenPictureStudio}
-              title="Click to change your picture and unique background"
-              className="relative w-18 h-22 sm:w-20 sm:h-26 rounded-xl overflow-hidden border border-neutral-600/70 bg-neutral-900 shrink-0 shadow-lg cursor-pointer group/avatar ring-1 ring-sky-500/20 hover:ring-sky-400 transition-all"
+              onClick={() => setIsStudioExpanded(!isStudioExpanded)}
+              title="Click to toggle Picture & Background Studio"
+              className="relative w-18 h-22 sm:w-20 sm:h-26 rounded-lg overflow-hidden border border-white/20 bg-[#111827] shrink-0 shadow-md cursor-pointer group/avatar hover:border-[#EAF3FF] transition-all"
             >
               <img
                 src={activePhoto}
@@ -111,62 +129,116 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   (e.target as HTMLImageElement).src = defaultPortraitImg;
                 }}
               />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[10px] font-mono text-center p-1">
-                <Camera className="w-4 h-4 mb-0.5 text-sky-400" />
+              <div className="absolute inset-0 bg-[#0B1F3A]/70 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#F8F7F3] text-[10px] font-mono text-center p-1">
+                <Camera className="w-4 h-4 mb-0.5 text-[#EAF3FF]" />
                 Change Pic
               </div>
             </div>
 
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-xs font-mono tracking-wider text-neutral-400">
+              <div className="flex items-center gap-2 text-xs font-mono tracking-wider text-[#EAF3FF]/80">
                 <span>02 OCT 2026</span>
                 <span aria-hidden="true">→</span>
                 <span>30 DEC 2026</span>
                 <span aria-hidden="true">·</span>
-                <span className="text-sky-400 font-semibold">90-DAY OPERATING SYSTEM</span>
+                <span className="text-[#EAF3FF] font-semibold">90-DAY OPERATING SYSTEM</span>
               </div>
               <div className="flex items-center gap-3">
-                <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F8F7F3]">
                   Hussnain Ansari
                 </h1>
                 <button
-                  onClick={onOpenPictureStudio}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono font-medium text-sky-300 bg-sky-950/60 hover:bg-sky-900/60 border border-sky-800/50 transition-colors"
+                  onClick={() => setIsStudioExpanded(!isStudioExpanded)}
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono font-medium text-[#EAF3FF] bg-[#174EA6]/60 hover:bg-[#174EA6] border border-[#EAF3FF]/20 transition-colors"
                   title="Upload picture or customize unique background"
                 >
                   <Palette className="w-3.5 h-3.5" />
-                  <span>Picture & Background</span>
+                  <span>{isStudioExpanded ? 'Close Studio' : 'Picture & Background Studio'}</span>
+                  {isStudioExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                 </button>
               </div>
-              <p className="text-xs sm:text-sm text-neutral-300 font-medium">
-                Accounting & Finance <span className="text-neutral-500">→</span> Business <span className="text-neutral-500">→</span> Data Analytics <span className="text-neutral-500">→</span> Building
+              <p className="text-xs sm:text-sm text-[#F8F7F3]/80 font-medium">
+                Accounting & Finance <span className="text-[#EAF3FF]/40">→</span> Business <span className="text-[#EAF3FF]/40">→</span> Data Analytics <span className="text-[#EAF3FF]/40">→</span> Building
               </p>
-              <div className="pt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-400">
+              <div className="pt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#EAF3FF]/80">
                 <span>Active: <strong className="text-white">Day {currentDayIndex} of 90</strong></span>
                 <span aria-hidden="true">·</span>
                 <span>Days remaining: <strong className="text-white font-mono tabular-nums">{90 - totalCompletedDays}</strong></span>
                 <span aria-hidden="true">·</span>
-                <span>Progress: <strong className="text-white font-mono tabular-nums">{completionPercentage}%</strong></span>
+                <span>Progress: <strong className="text-[#EAF3FF] font-mono tabular-nums font-bold">{completionPercentage}%</strong></span>
               </div>
             </div>
           </div>
 
           {/* Core Mantra / Standard Box */}
-          <div className="flex flex-col justify-center rounded-lg border border-neutral-800 bg-neutral-950/80 p-4 sm:p-5 md:max-w-md">
-            <span className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
+          <div className="flex flex-col justify-center rounded-lg border border-white/10 bg-[#0B1F3A]/80 p-4 sm:p-5 md:max-w-md">
+            <span className="text-[11px] font-mono tracking-widest text-[#EAF3FF]/70 uppercase">
               The Winter Arc Standard
             </span>
-            <p className="font-display text-sm sm:text-base font-bold text-neutral-100 tracking-tight mt-1">
+            <p className="font-display text-sm sm:text-base font-bold text-[#F8F7F3] tracking-tight mt-1">
               Learn → Practice → Build → Explain → Document → Improve
             </p>
-            <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+            <p className="text-xs text-[#EAF3FF]/80 mt-1 leading-relaxed">
               "Not a motivation challenge. A controlled 90-day experiment designed to create capability and proof."
             </p>
           </div>
         </div>
       </section>
 
-      {/* 18 One-Page Dashboard Quick HUD */}
+      {/* Embedded Streamlit-Style Picture & Background Studio (when toggled or accessible) */}
+      {isStudioExpanded && (
+        <section className="rounded-xl border border-[#174EA6]/30 bg-[#F8F7F3] p-6 shadow-md transition-all">
+          <div className="flex items-center justify-between border-b border-[rgba(11,31,58,0.08)] pb-3 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-mono uppercase tracking-widest text-[#174EA6] font-bold">
+                ❄️ Interactive Picture Studio
+              </span>
+            </div>
+            <button
+              onClick={() => setIsStudioExpanded(false)}
+              className="text-xs text-[#111827]/60 hover:text-[#0B1F3A] font-mono px-2 py-1 bg-[#F1F3F5] rounded border border-[rgba(11,31,58,0.08)]"
+            >
+              Hide Studio ▲
+            </button>
+          </div>
+
+          <WinterArcPictureStudio
+            currentImage={state.customProfileImage}
+            activeBackgroundId={state.activeBackgroundId}
+            activeBlendEffect={state.backgroundBlendEffect}
+            onSaveProfilePicture={handleInlineSavePicture}
+            currentDay={state.currentDayIndex}
+            isEmbedded={true}
+            onClose={() => setIsStudioExpanded(false)}
+          />
+        </section>
+      )}
+
+      {/* 90-Day Progress Bar (Section 15: Progress fill #2563EB, background #EAF3FF) */}
+      <section className="rounded-xl border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-5 space-y-3">
+        <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[#0B1F3A] font-bold uppercase tracking-wider text-xs">
+              Overall 90-Day Trajectory
+            </span>
+            <span className="text-[#111827]/50 font-mono">·</span>
+            <span className="font-mono text-[#111827]/70 font-medium">Day {currentDayIndex} of 90</span>
+          </div>
+          <span className="font-mono text-sm font-bold text-[#2563EB] tabular-nums">
+            {totalCompletedDays} / 90 Days ({completionPercentage}%)
+          </span>
+        </div>
+
+        {/* Progress Track */}
+        <div className="w-full h-2.5 rounded-full bg-[#EAF3FF] overflow-hidden border border-[rgba(11,31,58,0.06)]">
+          <div
+            className="h-full bg-[#2563EB] rounded-full transition-all duration-500"
+            style={{ width: `${Math.max(2, completionPercentage)}%` }}
+          />
+        </div>
+      </section>
+
+      {/* Three Phase Cards (Section 14 & 16: #F1F3F5 surfaces, #0B1F3A headings, #174EA6 active) */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {PHASES.map((p) => {
           const isPhaseActive = p.id === activePhase.id;
@@ -175,27 +247,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               key={p.id}
               className={`rounded-lg border p-4 transition-all ${
                 isPhaseActive
-                  ? 'border-neutral-700 bg-neutral-900/90 shadow-sm'
-                  : 'border-neutral-800/80 bg-neutral-900/40 opacity-80 hover:opacity-100'
+                  ? 'border-[#174EA6]/30 bg-[#EAF3FF]/70 shadow-xs'
+                  : 'border-[rgba(11,31,58,0.08)] bg-[#F1F3F5]'
               }`}
             >
-              <div className="flex items-center justify-between text-xs text-neutral-400">
-                <span className="font-mono">{p.startDate.slice(5)} → {p.endDate.slice(5)}</span>
-                <span className={`text-[11px] font-mono font-medium ${isPhaseActive ? 'text-amber-400' : 'text-neutral-500'}`}>
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-mono text-[#111827]/60">{p.startDate.slice(5)} → {p.endDate.slice(5)}</span>
+                <span className={`text-[11px] font-mono font-bold ${isPhaseActive ? 'text-[#174EA6]' : 'text-[#111827]/50'}`}>
                   {isPhaseActive ? 'CURRENT PHASE' : 'SCHEDULED'}
                 </span>
               </div>
-              <h3 className="font-display text-base font-bold text-white mt-1">
+              <h3 className="font-display text-base font-bold text-[#0B1F3A] mt-1.5">
                 {p.name}
               </h3>
-              <p className="text-xs text-neutral-300 mt-1">
+              <p className="text-xs text-[#174EA6] font-medium mt-0.5">
                 {p.centralQuestion}
               </p>
-              <p className="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-[#111827]/80 mt-2 line-clamp-2 leading-relaxed">
                 {p.primaryOutcome}
               </p>
-              <div className="mt-3 pt-2 border-t border-neutral-800 text-[11px] text-neutral-500">
-                Trap to avoid: <span className="text-neutral-400">{p.avoidTrap}</span>
+              <div className="mt-3 pt-2 border-t border-[rgba(11,31,58,0.08)] text-[11px] text-[#111827]/60">
+                Trap to avoid: <span className="text-[#0B1F3A] font-medium">{p.avoidTrap}</span>
               </div>
             </div>
           );
@@ -203,17 +275,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </section>
 
       {/* Today's Focus & Action Station */}
-      <section className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-neutral-800 pb-4">
+      <section className="rounded-xl border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[rgba(11,31,58,0.08)] pb-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
-              <span>{currentTask?.displayDate}</span>
+            <div className="flex items-center gap-2 text-xs font-mono text-[#111827]/60">
+              <span className="font-semibold text-[#0B1F3A]">{currentTask?.displayDate}</span>
               <span aria-hidden="true">·</span>
               <span>Week {currentTask?.weekId}</span>
               <span aria-hidden="true">·</span>
-              <span className="text-sky-400">Pillar: {currentTask?.pillarFocus.join(', ')}</span>
+              <span className="text-[#174EA6] font-semibold">Pillar: {currentTask?.pillarFocus.join(', ')}</span>
             </div>
-            <h2 className="font-display text-xl font-bold text-white mt-1">
+            <h2 className="font-display text-xl font-bold text-[#0B1F3A] mt-1">
               Day {currentDayIndex}: {currentTask?.topic}
             </h2>
           </div>
@@ -223,13 +295,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               onClick={toggleCurrentDayCompleted}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
                 currentTask?.completed
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                  : 'bg-white text-neutral-900 hover:bg-neutral-200'
+                  ? 'bg-[#4F7D62] text-white shadow-xs'
+                  : 'bg-[#174EA6] text-white hover:bg-[#0F3B82]'
               }`}
             >
               {currentTask?.completed ? (
                 <>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <CheckCircle2 className="w-4 h-4 text-white" />
                   Day Completed
                 </>
               ) : (
@@ -242,7 +314,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
             <button
               onClick={() => onNavigateTab('operating-systems')}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-neutral-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-[#174EA6] bg-[#EAF3FF] hover:bg-[#d8e9ff] border border-[#174EA6]/20 rounded-lg transition-colors"
             >
               Launch Focus Mode
               <ArrowRight className="w-3.5 h-3.5" />
@@ -254,16 +326,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-5">
           <div className="lg:col-span-2 space-y-4">
             <div>
-              <label className="text-xs font-mono text-neutral-400 uppercase tracking-wider block">
+              <label className="text-xs font-mono text-[#0B1F3A] uppercase tracking-wider block font-semibold">
                 Execution Directive
               </label>
-              <p className="text-sm text-neutral-200 mt-1 leading-relaxed bg-neutral-950/60 p-3.5 rounded-lg border border-neutral-800 font-medium">
+              <p className="text-sm text-[#111827] mt-1 leading-relaxed bg-[#F8F7F3] p-3.5 rounded-lg border border-[rgba(11,31,58,0.08)] font-medium">
                 {currentTask?.executionDetail}
               </p>
             </div>
 
             <div>
-              <label className="text-xs font-mono text-neutral-400 uppercase tracking-wider block">
+              <label className="text-xs font-mono text-[#0B1F3A] uppercase tracking-wider block font-semibold">
                 Today's One Big Outcome (OBO)
               </label>
               <input
@@ -274,20 +346,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   onUpdateState(prev => ({ ...prev, todayOneBigOutcome: val }));
                 }}
                 placeholder="Write in 1 sentence your One Big Outcome for today..."
-                className="w-full mt-1 bg-neutral-950 border border-neutral-800 rounded-lg px-3.5 py-2.5 text-sm text-neutral-100 placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                className="w-full mt-1 bg-[#F8F7F3] border border-[rgba(11,31,58,0.12)] rounded-lg px-3.5 py-2.5 text-sm text-[#111827] placeholder:text-[#111827]/40 focus:outline-none focus:border-[#174EA6] transition-colors"
               />
             </div>
           </div>
 
           {/* Minimum Viable Day (MVD) Station */}
-          <div className="rounded-lg border border-neutral-800 bg-neutral-950/70 p-4 space-y-3">
+          <div className="rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-wider text-amber-400 font-semibold">
+              <span className="text-xs font-mono uppercase tracking-wider text-[#174EA6] font-bold">
                 Minimum Viable Day (MVD)
               </span>
-              <span className="text-[11px] text-neutral-500">35 min total</span>
+              <span className="text-[11px] text-[#111827]/60 font-mono">35 min total</span>
             </div>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
               When schedule collapses: protect continuity. No zero-recovery spiral.
             </p>
 
@@ -296,74 +368,74 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 onClick={() => toggleMvdItem('technical20m')}
                 className={`w-full flex items-center justify-between p-2.5 rounded-md border text-xs text-left transition-colors ${
                   state.mvdState.technical20m
-                    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
-                    : 'border-neutral-800 hover:border-neutral-700 bg-neutral-900/60 text-neutral-300'
+                    ? 'border-[#4F7D62]/40 bg-[#4F7D62]/10 text-[#4F7D62] font-semibold'
+                    : 'border-[rgba(11,31,58,0.08)] hover:border-[#174EA6]/30 bg-[#F1F3F5] text-[#111827]'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <Database className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                  <Database className="w-3.5 h-3.5 text-[#2563EB] shrink-0" />
                   <span>20m Technical Practice</span>
                 </div>
-                {state.mvdState.technical20m ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Circle className="w-4 h-4 text-neutral-600" />}
+                {state.mvdState.technical20m ? <CheckCircle2 className="w-4 h-4 text-[#4F7D62]" /> : <Circle className="w-4 h-4 text-[#111827]/40" />}
               </button>
 
               <button
                 onClick={() => toggleMvdItem('english10m')}
                 className={`w-full flex items-center justify-between p-2.5 rounded-md border text-xs text-left transition-colors ${
                   state.mvdState.english10m
-                    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
-                    : 'border-neutral-800 hover:border-neutral-700 bg-neutral-900/60 text-neutral-300'
+                    ? 'border-[#4F7D62]/40 bg-[#4F7D62]/10 text-[#4F7D62] font-semibold'
+                    : 'border-[rgba(11,31,58,0.08)] hover:border-[#174EA6]/30 bg-[#F1F3F5] text-[#111827]'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <Mic className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <Mic className="w-3.5 h-3.5 text-[#174EA6] shrink-0" />
                   <span>10m English Speaking</span>
                 </div>
-                {state.mvdState.english10m ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Circle className="w-4 h-4 text-neutral-600" />}
+                {state.mvdState.english10m ? <CheckCircle2 className="w-4 h-4 text-[#4F7D62]" /> : <Circle className="w-4 h-4 text-[#111827]/40" />}
               </button>
 
               <button
                 onClick={() => toggleMvdItem('reflection5m')}
                 className={`w-full flex items-center justify-between p-2.5 rounded-md border text-xs text-left transition-colors ${
                   state.mvdState.reflection5m
-                    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
-                    : 'border-neutral-800 hover:border-neutral-700 bg-neutral-900/60 text-neutral-300'
+                    ? 'border-[#4F7D62]/40 bg-[#4F7D62]/10 text-[#4F7D62] font-semibold'
+                    : 'border-[rgba(11,31,58,0.08)] hover:border-[#174EA6]/30 bg-[#F1F3F5] text-[#111827]'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <BookOpen className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                  <BookOpen className="w-3.5 h-3.5 text-[#0B1F3A] shrink-0" />
                   <span>5m Reflection + Tomorrow's MIT</span>
                 </div>
-                {state.mvdState.reflection5m ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Circle className="w-4 h-4 text-neutral-600" />}
+                {state.mvdState.reflection5m ? <CheckCircle2 className="w-4 h-4 text-[#4F7D62]" /> : <Circle className="w-4 h-4 text-[#111827]/40" />}
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 90-Day Interactive Matrix */}
-      <section className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-4">
+      {/* 90-Day Interactive Matrix (Section 15: #F1F3F5 neutral cells, #2563EB active, #4F7D62 completed) */}
+      <section className="rounded-xl border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 className="font-display text-base font-bold text-white">
+            <h3 className="font-display text-base font-bold text-[#0B1F3A]">
               90-Day Trajectory Grid
             </h3>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-[#111827]/70">
               Click any day to jump to its focus directive, update notes, or verify completion.
             </p>
           </div>
 
           <div className="flex items-center gap-4 text-xs font-mono">
-            <span className="flex items-center gap-1.5 text-neutral-400">
-              <span className="w-2.5 h-2.5 rounded-sm bg-neutral-800 border border-neutral-700" />
+            <span className="flex items-center gap-1.5 text-[#111827]/60">
+              <span className="w-2.5 h-2.5 rounded-xs bg-[#F8F7F3] border border-[rgba(11,31,58,0.15)]" />
               Pending
             </span>
-            <span className="flex items-center gap-1.5 text-sky-400">
-              <span className="w-2.5 h-2.5 rounded-sm bg-sky-500" />
+            <span className="flex items-center gap-1.5 text-[#174EA6] font-semibold">
+              <span className="w-2.5 h-2.5 rounded-xs bg-[#174EA6]" />
               Active Day
             </span>
-            <span className="flex items-center gap-1.5 text-emerald-400">
-              <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
+            <span className="flex items-center gap-1.5 text-[#4F7D62] font-semibold">
+              <span className="w-2.5 h-2.5 rounded-xs bg-[#4F7D62]" />
               Completed
             </span>
           </div>
@@ -373,7 +445,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="grid grid-cols-10 sm:grid-cols-15 md:grid-cols-18 gap-1.5 pt-2">
           {Array.from({ length: 90 }, (_, i) => {
             const dayNum = i + 1;
-            // find task
             let dayTaskItem: any = null;
             for (const w of state.weeks) {
               const f = w.days.find(d => d.dayIndex === dayNum);
@@ -389,16 +460,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             return (
               <button
                 key={dayNum}
-                onClick={() => {
-                  onSelectDay(dayNum);
-                }}
+                onClick={() => onSelectDay(dayNum)}
                 title={`Day ${dayNum}: ${dayTaskItem?.displayDate} — ${dayTaskItem?.topic}`}
                 className={`relative aspect-square flex items-center justify-center rounded text-[11px] font-mono tabular-nums transition-all ${
                   isCurrent
-                    ? 'ring-2 ring-sky-400 bg-sky-500 text-neutral-950 font-bold z-10 scale-105'
+                    ? 'ring-2 ring-[#2563EB] bg-[#174EA6] text-white font-bold z-10 scale-105 shadow-xs'
                     : isCompleted
-                    ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-600/50'
-                    : 'bg-neutral-900 border border-neutral-800/80 text-neutral-400 hover:border-neutral-600 hover:text-white'
+                    ? 'bg-[#4F7D62] text-white hover:bg-[#3E654E]'
+                    : 'bg-[#F8F7F3] border border-[rgba(11,31,58,0.1)] text-[#0B1F3A]/70 hover:border-[#174EA6] hover:text-[#0B1F3A]'
                 }`}
               >
                 {dayNum}
@@ -408,72 +477,109 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </section>
 
-      {/* 02 The Winter Arc Pillar Hierarchy */}
-      <section className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-4">
+      {/* Unified Winter Arc Growth Dimensions (Section 01, 13: Islamic, Mental, Physical, Learning, Habits, Reflection) */}
+      <section className="rounded-xl border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-6 space-y-4">
         <div>
-          <span className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
-            02 — The Winter Arc Pillar System
+          <span className="text-[11px] font-mono tracking-widest text-[#174EA6] uppercase font-bold">
+            01 & 13 — Unified Growth Architecture
           </span>
-          <h3 className="font-display text-lg font-bold text-white mt-1">
-            The Priority Rule Engine
+          <h3 className="font-display text-lg font-bold text-[#0B1F3A] mt-1">
+            Six Interconnected Dimensions of One Operating System
           </h3>
-          <p className="text-xs text-neutral-400 leading-relaxed max-w-3xl mt-1">
-            "P4 is the main capability engine. P3 gives it business context. P2 makes the capability communicable. P5 makes the evidence visible. P1 keeps the entire system alive."
+          <p className="text-xs text-[#111827]/80 leading-relaxed max-w-3xl mt-1">
+            "The entire Winter Arc ecosystem inherits one visual identity. There is no separate color palette for Islamic, Mental, Physical, or Learning. These are different modules of the same operating system."
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-3 pt-2">
-          <div className="p-3.5 rounded-lg border border-neutral-800 bg-neutral-950/60 space-y-1">
-            <span className="text-xs font-mono font-semibold text-neutral-400">P1 · System</span>
-            <h4 className="text-sm font-semibold text-white">Personal OS</h4>
-            <p className="text-xs text-neutral-400">Discipline, time management, reflection, consistency.</p>
-            <span className="text-[11px] text-neutral-500 block pt-1">Evidence: Weekly score + reflection</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 pt-2">
+          {/* 1. Islamic Growth */}
+          <div className="p-4 rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] space-y-1.5">
+            <div className="flex items-center gap-2">
+              <Compass className="w-4 h-4 text-[#174EA6]" />
+              <h4 className="text-sm font-bold text-[#0B1F3A]">Islamic Growth</h4>
+            </div>
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
+              Fajr & 5 daily prayers consistency, Quran reflection, moral grounding, and inner stillness before God.
+            </p>
+            <span className="text-[11px] font-mono text-[#174EA6] block pt-1">Standard: Spiritual clarity & daily accountability</span>
           </div>
 
-          <div className="p-3.5 rounded-lg border border-neutral-800 bg-neutral-950/60 space-y-1">
-            <span className="text-xs font-mono font-semibold text-neutral-400">P2 · Speech</span>
-            <h4 className="text-sm font-semibold text-white">Communication</h4>
-            <p className="text-xs text-neutral-400">Natural English, explanation, structured delivery.</p>
-            <span className="text-[11px] text-neutral-500 block pt-1">Evidence: Voice recordings</span>
+          {/* 2. Mental Strength */}
+          <div className="p-4 rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] space-y-1.5">
+            <div className="flex items-center gap-2">
+              <Brain className="w-4 h-4 text-[#174EA6]" />
+              <h4 className="text-sm font-bold text-[#0B1F3A]">Mental Strength</h4>
+            </div>
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
+              Cognitive composure, zero-scroll rule, attention control during deep work blocks, and emotional stability.
+            </p>
+            <span className="text-[11px] font-mono text-[#174EA6] block pt-1">Standard: Undistracted attention & calm focus</span>
           </div>
 
-          <div className="p-3.5 rounded-lg border border-neutral-800 bg-neutral-950/60 space-y-1">
-            <span className="text-xs font-mono font-semibold text-neutral-400">P3 · Business</span>
-            <h4 className="text-sm font-semibold text-white">Accounting / Biz</h4>
-            <p className="text-xs text-neutral-400">Degree foundation, financial reasoning, ratios.</p>
-            <span className="text-[11px] text-neutral-500 block pt-1">Evidence: Analysis + notes</span>
+          {/* 3. Physical Strength */}
+          <div className="p-4 rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] space-y-1.5">
+            <div className="flex items-center gap-2">
+              <Dumbbell className="w-4 h-4 text-[#174EA6]" />
+              <h4 className="text-sm font-bold text-[#0B1F3A]">Physical Strength</h4>
+            </div>
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
+              Disciplined movement, strength training, 7–8 hours sleep hygiene, clean hydration, and physical energy.
+            </p>
+            <span className="text-[11px] font-mono text-[#174EA6] block pt-1">Standard: Sustained bodily vitality & recovery</span>
           </div>
 
-          <div className="p-3.5 rounded-lg border border-sky-900/40 bg-sky-950/20 space-y-1">
-            <span className="text-xs font-mono font-semibold text-sky-400">P4 · Engine</span>
-            <h4 className="text-sm font-semibold text-white">Technical Analytics</h4>
-            <p className="text-xs text-neutral-300">Python, Excel, SQL, Power BI, data modeling.</p>
-            <span className="text-[11px] text-sky-400/80 block pt-1">Evidence: Repos + Dashboards</span>
+          {/* 4. Learning & Analytics */}
+          <div className="p-4 rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] space-y-1.5">
+            <div className="flex items-center gap-2">
+              <Database className="w-4 h-4 text-[#174EA6]" />
+              <h4 className="text-sm font-bold text-[#0B1F3A]">Learning & Analytics</h4>
+            </div>
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
+              Accounting & Finance fundamentals into Python, SQL, Excel, and Power BI. Active reproduction over passive video watching.
+            </p>
+            <span className="text-[11px] font-mono text-[#174EA6] block pt-1">Standard: Inspectable projects & GitHub commits</span>
           </div>
 
-          <div className="p-3.5 rounded-lg border border-neutral-800 bg-neutral-950/60 space-y-1">
-            <span className="text-xs font-mono font-semibold text-neutral-400">P5 · Proof</span>
-            <h4 className="text-sm font-semibold text-white">Building & Brand</h4>
-            <p className="text-xs text-neutral-400">Portfolio, GitHub, Learning in Public, FINOVAH.</p>
-            <span className="text-[11px] text-neutral-500 block pt-1">Evidence: Published artifacts</span>
+          {/* 5. Discipline & Habits */}
+          <div className="p-4 rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] space-y-1.5">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-[#174EA6]" />
+              <h4 className="text-sm font-bold text-[#0B1F3A]">Discipline & Habits</h4>
+            </div>
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
+              Protected 6-block time framework, anchored habit stack, and Minimum Viable Day (MVD) continuity.
+            </p>
+            <span className="text-[11px] font-mono text-[#174EA6] block pt-1">Standard: 0.1% daily forward motion</span>
+          </div>
+
+          {/* 6. Reflection & Purpose */}
+          <div className="p-4 rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] space-y-1.5">
+            <div className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-[#174EA6]" />
+              <h4 className="text-sm font-bold text-[#0B1F3A]">Reflection & Purpose</h4>
+            </div>
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
+              Nightly 3-line reflection journal, weekly Sunday 10-question audit, and honest self-assessment without hype.
+            </p>
+            <span className="text-[11px] font-mono text-[#174EA6] block pt-1">Standard: Weekly scorecard & calibrated direction</span>
           </div>
         </div>
       </section>
 
       {/* Weekly Targets & Scorecard Bar */}
-      <section className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 space-y-4">
+      <section className="rounded-xl border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-display text-base font-bold text-white">
+            <h3 className="font-display text-base font-bold text-[#0B1F3A]">
               Weekly Execution Targets
             </h3>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-[#111827]/70">
               Targets, not perfection traps. Preserve minimum viable volume during university exam weeks.
             </p>
           </div>
           <button
             onClick={() => onNavigateTab('scoreboard')}
-            className="text-xs text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1 transition-colors"
+            className="text-xs text-[#174EA6] hover:text-[#0B1F3A] font-semibold flex items-center gap-1 transition-colors"
           >
             Sunday Review
             <ArrowRight className="w-3 h-3" />
@@ -481,59 +587,59 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
-          <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-            <span className="text-neutral-400 block text-[11px]">Technical</span>
-            <span className="font-mono text-base font-bold text-white tabular-nums">
+          <div className="p-3 rounded-lg bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-center">
+            <span className="text-[#111827]/60 block text-[11px]">Technical</span>
+            <span className="font-mono text-base font-bold text-[#0B1F3A] tabular-nums">
               {state.activeWeeklyPillarTargets.technicalSessions}
-              <span className="text-xs font-normal text-neutral-500"> / 4–6</span>
+              <span className="text-xs font-normal text-[#111827]/50"> / 4–6</span>
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-            <span className="text-neutral-400 block text-[11px]">English Speaking</span>
-            <span className="font-mono text-base font-bold text-white tabular-nums">
+          <div className="p-3 rounded-lg bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-center">
+            <span className="text-[#111827]/60 block text-[11px]">English Speaking</span>
+            <span className="font-mono text-base font-bold text-[#0B1F3A] tabular-nums">
               {state.activeWeeklyPillarTargets.englishSessions}
-              <span className="text-xs font-normal text-neutral-500"> / 5–7</span>
+              <span className="text-xs font-normal text-[#111827]/50"> / 5–7</span>
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-            <span className="text-neutral-400 block text-[11px]">Accounting/Biz</span>
-            <span className="font-mono text-base font-bold text-white tabular-nums">
+          <div className="p-3 rounded-lg bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-center">
+            <span className="text-[#111827]/60 block text-[11px]">Accounting/Biz</span>
+            <span className="font-mono text-base font-bold text-[#0B1F3A] tabular-nums">
               {state.activeWeeklyPillarTargets.accountingSessions}
-              <span className="text-xs font-normal text-neutral-500"> / 2–4</span>
+              <span className="text-xs font-normal text-[#111827]/50"> / 2–4</span>
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-            <span className="text-neutral-400 block text-[11px]">Project/Build</span>
-            <span className="font-mono text-base font-bold text-white tabular-nums">
+          <div className="p-3 rounded-lg bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-center">
+            <span className="text-[#111827]/60 block text-[11px]">Project/Build</span>
+            <span className="font-mono text-base font-bold text-[#0B1F3A] tabular-nums">
               {state.activeWeeklyPillarTargets.projectSessions}
-              <span className="text-xs font-normal text-neutral-500"> / 2–4</span>
+              <span className="text-xs font-normal text-[#111827]/50"> / 2–4</span>
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-            <span className="text-neutral-400 block text-[11px]">Learning in Public</span>
-            <span className="font-mono text-base font-bold text-white tabular-nums">
+          <div className="p-3 rounded-lg bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-center">
+            <span className="text-[#111827]/60 block text-[11px]">Learning in Public</span>
+            <span className="font-mono text-base font-bold text-[#0B1F3A] tabular-nums">
               {state.activeWeeklyPillarTargets.learningInPublicPosts}
-              <span className="text-xs font-normal text-neutral-500"> / 1–3</span>
+              <span className="text-xs font-normal text-[#111827]/50"> / 1–3</span>
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-            <span className="text-neutral-400 block text-[11px]">Weekly Review</span>
-            <span className="font-mono text-base font-bold text-white tabular-nums">
+          <div className="p-3 rounded-lg bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-center">
+            <span className="text-[#111827]/60 block text-[11px]">Weekly Review</span>
+            <span className="font-mono text-base font-bold text-[#0B1F3A] tabular-nums">
               {state.activeWeeklyPillarTargets.weeklyReviews}
-              <span className="text-xs font-normal text-neutral-500"> / 1</span>
+              <span className="text-xs font-normal text-[#111827]/50"> / 1</span>
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-neutral-950 border border-neutral-800 text-center">
-            <span className="text-neutral-400 block text-[11px]">Maintenance</span>
-            <span className="font-mono text-base font-bold text-white tabular-nums">
+          <div className="p-3 rounded-lg bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-center">
+            <span className="text-[#111827]/60 block text-[11px]">Maintenance</span>
+            <span className="font-mono text-base font-bold text-[#0B1F3A] tabular-nums">
               {state.activeWeeklyPillarTargets.maintenanceSessions}
-              <span className="text-xs font-normal text-neutral-500"> / 1</span>
+              <span className="text-xs font-normal text-[#111827]/50"> / 1</span>
             </span>
           </div>
         </div>

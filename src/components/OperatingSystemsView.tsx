@@ -112,29 +112,29 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
   const timeFormatted = `${String(minutesDisplay).padStart(2, '0')}:${String(secondsDisplay).padStart(2, '0')}`;
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-8 pb-12 text-[#111827]">
       {/* Header and Mode Selector */}
       <section className="space-y-4">
         <div>
-          <span className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
+          <span className="text-[11px] font-mono tracking-widest text-[#174EA6] uppercase font-bold">
             04 — Three Operating Systems
           </span>
-          <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white mt-1">
+          <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0B1F3A] mt-1">
             Choose Your Execution Engine
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-3xl mt-1">
+          <p className="text-xs sm:text-sm text-[#111827]/80 leading-relaxed max-w-3xl mt-1">
             "They are not competing systems; they solve different problems. Use Time-Block when the day is under your control, Habit-Stack when flexibility is needed, and Milestones to avoid false productivity."
           </p>
         </div>
 
         {/* Clean Segmented Mode Selector */}
-        <div className="inline-flex p-1 bg-neutral-900 border border-neutral-800 rounded-lg">
+        <div className="inline-flex p-1 bg-[#F1F3F5] border border-[rgba(11,31,58,0.08)] rounded-lg">
           <button
             onClick={() => setActiveMode('time-block')}
             className={`px-4 py-2 text-xs font-semibold rounded-md transition-all whitespace-nowrap ${
               activeMode === 'time-block'
-                ? 'bg-neutral-800 text-white shadow-sm'
-                : 'text-neutral-400 hover:text-neutral-200'
+                ? 'bg-[#174EA6] text-white shadow-xs'
+                : 'text-[#0B1F3A]/70 hover:text-[#0B1F3A]'
             }`}
           >
             A. TIME-BLOCK (Strict Schedule)
@@ -143,8 +143,8 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
             onClick={() => setActiveMode('habit-stack')}
             className={`px-4 py-2 text-xs font-semibold rounded-md transition-all whitespace-nowrap ${
               activeMode === 'habit-stack'
-                ? 'bg-neutral-800 text-white shadow-sm'
-                : 'text-neutral-400 hover:text-neutral-200'
+                ? 'bg-[#174EA6] text-white shadow-xs'
+                : 'text-[#0B1F3A]/70 hover:text-[#0B1F3A]'
             }`}
           >
             B. HABIT-STACK (Flexible Checklist)
@@ -153,8 +153,8 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
             onClick={() => setActiveMode('milestone')}
             className={`px-4 py-2 text-xs font-semibold rounded-md transition-all whitespace-nowrap ${
               activeMode === 'milestone'
-                ? 'bg-neutral-800 text-white shadow-sm'
-                : 'text-neutral-400 hover:text-neutral-200'
+                ? 'bg-[#174EA6] text-white shadow-xs'
+                : 'text-[#0B1F3A]/70 hover:text-[#0B1F3A]'
             }`}
           >
             C. MILESTONE (Goal-Focused)
@@ -168,15 +168,13 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left: 6 Strict Blocks List */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-display text-base font-bold text-white">
-                    The 6 Protected Work Blocks
-                  </h3>
-                  <p className="text-xs text-neutral-400">
-                    "Strict means the block has a protected purpose, not that every day has unlimited hours."
-                  </p>
-                </div>
+              <div>
+                <h3 className="font-display text-base font-bold text-[#0B1F3A]">
+                  The 6 Protected Work Blocks
+                </h3>
+                <p className="text-xs text-[#111827]/70">
+                  "Strict means the block has a protected purpose, not that every day has unlimited hours."
+                </p>
               </div>
 
               <div className="space-y-3">
@@ -185,25 +183,25 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                     key={block.id}
                     className={`rounded-lg border p-4 transition-all ${
                       block.completed
-                        ? 'border-emerald-500/30 bg-emerald-500/5'
-                        : 'border-neutral-800 bg-neutral-900/40 hover:border-neutral-700'
+                        ? 'border-[#4F7D62]/40 bg-[#4F7D62]/5'
+                        : 'border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] hover:border-[#174EA6]/30'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono font-bold text-sky-400">
+                          <span className="text-xs font-mono font-bold text-[#174EA6]">
                             Block {block.number}
                           </span>
-                          <span className="text-neutral-500 font-mono text-xs">·</span>
-                          <h4 className="text-sm font-semibold text-white">
+                          <span className="text-[#111827]/40 font-mono text-xs">·</span>
+                          <h4 className="text-sm font-semibold text-[#0B1F3A]">
                             {block.name}
                           </h4>
-                          <span className="font-mono text-xs tabular-nums text-neutral-400 bg-neutral-950 px-2 py-0.5 rounded border border-neutral-800">
+                          <span className="font-mono text-xs tabular-nums text-[#174EA6] bg-[#EAF3FF] px-2 py-0.5 rounded border border-[#174EA6]/15 font-semibold">
                             {block.standardTarget}
                           </span>
                         </div>
-                        <p className="text-xs text-neutral-300">
+                        <p className="text-xs text-[#111827]/80 leading-relaxed">
                           {block.rule}
                         </p>
                       </div>
@@ -216,19 +214,19 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                             setTimerPreset(minutes, `Block ${block.number} — ${block.name}`);
                           }}
                           title="Load this block into the focus timer"
-                          className="px-2 py-1 text-[11px] font-mono font-medium text-neutral-400 hover:text-white bg-neutral-950 border border-neutral-800 rounded transition-colors"
+                          className="px-2.5 py-1 text-[11px] font-mono font-semibold text-[#174EA6] hover:bg-[#d8e9ff] bg-[#EAF3FF] border border-[#174EA6]/15 rounded transition-colors"
                         >
                           Load Timer
                         </button>
 
                         <button
                           onClick={() => onToggleBlock(block.id)}
-                          className="p-1 text-neutral-400 hover:text-emerald-400 transition-colors"
+                          className="p-1 text-[#111827]/40 hover:text-[#4F7D62] transition-colors"
                         >
                           {block.completed ? (
-                            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                            <CheckCircle2 className="w-5 h-5 text-[#4F7D62]" />
                           ) : (
-                            <Circle className="w-5 h-5 text-neutral-600" />
+                            <Circle className="w-5 h-5 text-[#111827]/30" />
                           )}
                         </button>
                       </div>
@@ -240,25 +238,25 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
 
             {/* Right: Interactive Deep Work Focus Timer & Artifact Logger */}
             <div className="space-y-4">
-              <div className="rounded-xl border border-neutral-800 bg-neutral-900/70 p-6 space-y-4">
+              <div className="rounded-xl border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-sky-400" />
-                    <h3 className="font-display text-sm font-bold text-white">
+                    <Clock className="w-4 h-4 text-[#174EA6]" />
+                    <h3 className="font-display text-sm font-bold text-[#0B1F3A]">
                       Protected Focus Timer
                     </h3>
                   </div>
-                  <span className="text-xs font-mono text-neutral-400 truncate max-w-[130px]">
+                  <span className="text-xs font-mono text-[#111827]/60 truncate max-w-[130px] font-medium">
                     {activeBlockName}
                   </span>
                 </div>
 
-                {/* Big Digital Display */}
-                <div className="flex flex-col items-center justify-center p-6 bg-neutral-950 border border-neutral-800 rounded-lg text-center">
-                  <span className="font-mono text-4xl sm:text-5xl font-extrabold text-white tracking-widest tabular-nums">
+                {/* Big Digital Display (Deep Navy Box with Off-White Tabular Digits) */}
+                <div className="flex flex-col items-center justify-center p-6 bg-[#0B1F3A] border border-[#0B1F3A] rounded-lg text-center shadow-xs">
+                  <span className="font-mono text-4xl sm:text-5xl font-extrabold text-[#F8F7F3] tracking-widest tabular-nums">
                     {timeFormatted}
                   </span>
-                  <span className="text-[11px] font-mono text-neutral-500 uppercase mt-2 tracking-wider">
+                  <span className="text-[11px] font-mono text-[#EAF3FF]/80 uppercase mt-2 tracking-wider font-semibold">
                     {isTimerRunning ? 'Session In Progress' : 'Ready / Paused'}
                   </span>
                 </div>
@@ -269,8 +267,8 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                     onClick={() => setIsTimerRunning(!isTimerRunning)}
                     className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold transition-all ${
                       isTimerRunning
-                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                        : 'bg-white text-neutral-950 hover:bg-neutral-200'
+                        ? 'bg-[#EAF3FF] text-[#174EA6] border border-[#174EA6]/30'
+                        : 'bg-[#174EA6] text-white hover:bg-[#0F3B82] shadow-xs'
                     }`}
                   >
                     {isTimerRunning ? (
@@ -288,7 +286,7 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
 
                   <button
                     onClick={handleResetTimer}
-                    className="p-2.5 rounded-lg text-neutral-400 hover:text-white bg-neutral-950 border border-neutral-800 transition-colors"
+                    className="p-2.5 rounded-lg text-[#0B1F3A] hover:bg-[#e7eaee] bg-[#F8F7F3] border border-[rgba(11,31,58,0.12)] transition-colors"
                     title="Reset Timer"
                   >
                     <RotateCcw className="w-4 h-4" />
@@ -299,36 +297,36 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                 <div className="flex items-center justify-center gap-1.5 pt-1 text-[11px] font-mono">
                   <button
                     onClick={() => setTimerPreset(25, 'Pomodoro Sprint')}
-                    className="px-2 py-1 rounded bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-white"
+                    className="px-2.5 py-1 rounded bg-[#F8F7F3] border border-[rgba(11,31,58,0.1)] text-[#0B1F3A] hover:bg-[#EAF3FF] hover:text-[#174EA6]"
                   >
                     25m
                   </button>
                   <button
                     onClick={() => setTimerPreset(45, 'Build / Proof Block')}
-                    className="px-2 py-1 rounded bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-white"
+                    className="px-2.5 py-1 rounded bg-[#F8F7F3] border border-[rgba(11,31,58,0.1)] text-[#0B1F3A] hover:bg-[#EAF3FF] hover:text-[#174EA6]"
                   >
                     45m
                   </button>
                   <button
                     onClick={() => setTimerPreset(60, 'Deep Technical 60m')}
-                    className="px-2 py-1 rounded bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-white"
+                    className="px-2.5 py-1 rounded bg-[#F8F7F3] border border-[rgba(11,31,58,0.1)] text-[#0B1F3A] hover:bg-[#EAF3FF] hover:text-[#174EA6]"
                   >
                     60m
                   </button>
                   <button
                     onClick={() => setTimerPreset(90, 'Deep Technical 90m')}
-                    className="px-2 py-1 rounded bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-white"
+                    className="px-2.5 py-1 rounded bg-[#F8F7F3] border border-[rgba(11,31,58,0.1)] text-[#0B1F3A] hover:bg-[#EAF3FF] hover:text-[#174EA6]"
                   >
                     90m
                   </button>
                 </div>
 
                 {/* Mandatory Artifact Logger */}
-                <div className="border-t border-neutral-800 pt-4 space-y-2">
-                  <label className="text-xs font-mono text-neutral-400 uppercase tracking-wider block">
+                <div className="border-t border-[rgba(11,31,58,0.08)] pt-4 space-y-2">
+                  <label className="text-xs font-mono text-[#0B1F3A] uppercase tracking-wider block font-semibold">
                     Produce an Artifact (Non-Negotiable)
                   </label>
-                  <p className="text-[11px] text-neutral-500">
+                  <p className="text-[11px] text-[#111827]/70">
                     "Output beats passive input. What exercise, commit, or note did you generate?"
                   </p>
                   <div className="flex gap-2">
@@ -340,11 +338,11 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                         if (e.key === 'Enter') handleLogArtifact();
                       }}
                       placeholder="e.g. Created dict_practice.py with 3 ledger models"
-                      className="flex-1 bg-neutral-950 border border-neutral-800 rounded-md px-3 py-1.5 text-xs text-neutral-100 placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600"
+                      className="flex-1 bg-[#F8F7F3] border border-[rgba(11,31,58,0.12)] rounded-md px-3 py-1.5 text-xs text-[#111827] placeholder:text-[#111827]/40 focus:outline-none focus:border-[#174EA6]"
                     />
                     <button
                       onClick={handleLogArtifact}
-                      className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-md text-xs font-medium transition-colors"
+                      className="px-3.5 py-1.5 bg-[#174EA6] hover:bg-[#0F3B82] text-white rounded-md text-xs font-semibold transition-colors shadow-xs"
                     >
                       Log
                     </button>
@@ -353,21 +351,21 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
               </div>
 
               {/* Logged Artifacts feed */}
-              <div className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-4 space-y-2.5">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 block">
+              <div className="rounded-xl border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-4 space-y-2.5">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#0B1F3A] font-bold block">
                   Today's Recorded Artifacts ({loggedArtifacts.length})
                 </span>
                 <div className="space-y-2 max-h-48 overflow-y-auto">
                   {loggedArtifacts.map((item) => (
                     <div
                       key={item.id}
-                      className="p-2.5 rounded bg-neutral-950 border border-neutral-800/80 text-xs space-y-1"
+                      className="p-2.5 rounded bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)] text-xs space-y-1"
                     >
-                      <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500">
-                        <span>{item.block}</span>
+                      <div className="flex items-center justify-between text-[11px] font-mono text-[#111827]/60">
+                        <span className="font-semibold text-[#174EA6]">{item.block}</span>
                         <span>{item.time}</span>
                       </div>
-                      <p className="text-neutral-200 font-medium">{item.note}</p>
+                      <p className="text-[#111827] font-medium">{item.note}</p>
                     </div>
                   ))}
                 </div>
@@ -381,10 +379,10 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
       {activeMode === 'habit-stack' && (
         <section className="space-y-6">
           <div>
-            <h3 className="font-display text-base font-bold text-white">
+            <h3 className="font-display text-base font-bold text-[#0B1F3A]">
               B. Habit-Stack — Flexible Checklist
             </h3>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-[#111827]/70">
               When schedule predictability is low, chain essential behaviors to existing anchors. Minimum actions ensure momentum.
             </p>
           </div>
@@ -395,32 +393,34 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                 key={habit.id}
                 className={`rounded-lg border p-4 transition-all ${
                   habit.completedToday
-                    ? 'border-emerald-500/30 bg-emerald-500/5'
-                    : 'border-neutral-800 bg-neutral-900/40 hover:border-neutral-700'
+                    ? 'border-[#4F7D62]/40 bg-[#4F7D62]/5'
+                    : 'border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] hover:border-[#174EA6]/30'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1.5">
-                    <span className="text-[11px] font-mono text-sky-400 uppercase tracking-wider block">
+                    <span className="text-[11px] font-mono text-[#174EA6] uppercase tracking-wider block font-bold">
                       Anchor: {habit.anchor}
                     </span>
-                    <h4 className="text-sm font-semibold text-white">
+                    <h4 className="text-sm font-semibold text-[#0B1F3A]">
                       {habit.habitAttached}
                     </h4>
-                    <div className="flex items-center gap-1.5 text-xs text-neutral-400">
+                    <div className="flex items-center gap-1.5 text-xs text-[#111827]/70">
                       <span>Minimum required:</span>
-                      <strong className="text-neutral-200 font-mono">{habit.minimum}</strong>
+                      <strong className="text-[#0B1F3A] font-mono bg-[#EAF3FF] px-2 py-0.5 rounded border border-[#174EA6]/15 font-semibold">
+                        {habit.minimum}
+                      </strong>
                     </div>
                   </div>
 
                   <button
                     onClick={() => onToggleHabit(habit.id)}
-                    className="p-1 text-neutral-400 hover:text-emerald-400 transition-colors shrink-0"
+                    className="p-1 text-[#111827]/40 hover:text-[#4F7D62] transition-colors shrink-0"
                   >
                     {habit.completedToday ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                      <CheckCircle2 className="w-5 h-5 text-[#4F7D62]" />
                     ) : (
-                      <Circle className="w-5 h-5 text-neutral-600" />
+                      <Circle className="w-5 h-5 text-[#111827]/30" />
                     )}
                   </button>
                 </div>
@@ -428,11 +428,11 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
             ))}
           </div>
 
-          <div className="rounded-lg border border-neutral-800 bg-neutral-950/60 p-4">
-            <span className="text-xs font-mono font-semibold text-neutral-300 block mb-1">
+          <div className="rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-4">
+            <span className="text-xs font-mono font-bold text-[#0B1F3A] block mb-1">
               Habit-Stack Rule
             </span>
-            <p className="text-xs text-neutral-400 leading-relaxed">
+            <p className="text-xs text-[#111827]/80 leading-relaxed">
               Never break the chain on the <strong>Minimum</strong>. If you cannot study for 2 hours, open the file for 2 minutes and reproduce 1 calculation. Continuity compounds.
             </p>
           </div>
@@ -443,10 +443,10 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
       {activeMode === 'milestone' && (
         <section className="space-y-6">
           <div>
-            <h3 className="font-display text-base font-bold text-white">
+            <h3 className="font-display text-base font-bold text-[#0B1F3A]">
               C. Milestone — Goal-Focused Matrix
             </h3>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-[#111827]/70">
               "Milestones prevent the common trap of being 'busy' without moving forward. Test capability against proof."
             </p>
           </div>
@@ -455,14 +455,14 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
             {milestones.map((ms) => (
               <div
                 key={ms.id}
-                className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-5 space-y-3"
+                className="rounded-lg border border-[rgba(11,31,58,0.08)] bg-[#F1F3F5] p-5 space-y-3"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-800/80 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[rgba(11,31,58,0.08)] pb-3">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono font-bold text-sky-400 uppercase bg-sky-950/50 border border-sky-800/40 px-2 py-0.5 rounded">
+                    <span className="text-xs font-mono font-bold text-[#174EA6] uppercase bg-[#EAF3FF] border border-[#174EA6]/20 px-2.5 py-0.5 rounded">
                       {ms.type}
                     </span>
-                    <h4 className="text-sm font-semibold text-white">
+                    <h4 className="text-sm font-semibold text-[#0B1F3A]">
                       {ms.question}
                     </h4>
                   </div>
@@ -476,11 +476,11 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                         className={`px-2.5 py-1 text-xs font-mono rounded capitalize transition-colors ${
                           ms.status === st
                             ? st === 'proven'
-                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold'
+                              ? 'bg-[#4F7D62] text-white font-semibold'
                               : st === 'in-progress'
-                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold'
-                              : 'bg-neutral-800 text-white font-semibold'
-                            : 'text-neutral-500 hover:text-neutral-300 bg-neutral-950'
+                              ? 'bg-[#2563EB] text-white font-semibold'
+                              : 'bg-[#0B1F3A] text-white font-semibold'
+                            : 'text-[#111827]/60 hover:text-[#0B1F3A] bg-[#F8F7F3] border border-[rgba(11,31,58,0.08)]'
                         }`}
                       >
                         {st}
@@ -491,16 +491,16 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <span className="text-neutral-500 block mb-1 font-mono uppercase text-[11px]">
+                    <span className="text-[#111827]/60 block mb-1 font-mono uppercase text-[11px] font-semibold">
                       Required Standard / Example Evidence
                     </span>
-                    <p className="text-neutral-300 bg-neutral-950 p-2.5 rounded border border-neutral-800/60 font-medium">
+                    <p className="text-[#111827] bg-[#F8F7F3] p-2.5 rounded border border-[rgba(11,31,58,0.08)] font-medium">
                       {ms.exampleEvidence}
                     </p>
                   </div>
 
                   <div>
-                    <span className="text-neutral-500 block mb-1 font-mono uppercase text-[11px]">
+                    <span className="text-[#111827]/60 block mb-1 font-mono uppercase text-[11px] font-semibold">
                       Hussnain's Target Proof Artifact
                     </span>
                     <input
@@ -508,7 +508,7 @@ export const OperatingSystemsView: React.FC<OperatingSystemsViewProps> = ({
                       value={ms.proofArtifact}
                       onChange={(e) => onUpdateMilestone(ms.id, { proofArtifact: e.target.value })}
                       placeholder="e.g. GitHub link, recorded voice file, spreadsheet URL"
-                      className="w-full bg-neutral-950 p-2.5 rounded border border-neutral-800 text-neutral-100 placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600"
+                      className="w-full bg-[#F8F7F3] p-2.5 rounded border border-[rgba(11,31,58,0.12)] text-[#111827] placeholder:text-[#111827]/40 focus:outline-none focus:border-[#174EA6]"
                     />
                   </div>
                 </div>

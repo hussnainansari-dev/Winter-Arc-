@@ -33,28 +33,28 @@ export const TopNav: React.FC<TopNavProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-neutral-800 bg-neutral-950/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-[rgba(11,31,58,0.08)] bg-[#F8F7F3]/95 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Zone 1: Single-element brand wordmark */}
         <button
           onClick={() => onSelectTab('dashboard')}
-          className="font-display text-base font-extrabold tracking-tight text-white hover:text-neutral-200 transition-colors whitespace-nowrap focus:outline-none"
+          className="font-display text-base font-extrabold tracking-tight text-[#0B1F3A] hover:text-[#174EA6] transition-colors whitespace-nowrap focus:outline-none"
         >
           WINTER ARC 2026
         </button>
 
         {/* Zone 2: 4-7 clean text navigation links */}
-        <nav className="hidden md:flex items-center gap-5 text-xs font-medium text-neutral-400">
+        <nav className="hidden md:flex items-center gap-1.5 text-xs font-medium text-[#0B1F3A]/70">
           {navItems.map((item) => {
             const isActive = currentTab === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => onSelectTab(item.id)}
-                className={`transition-colors whitespace-nowrap py-1 ${
+                className={`transition-colors whitespace-nowrap px-3 py-1.5 rounded-md ${
                   isActive
-                    ? 'text-white border-b-2 border-white font-semibold'
-                    : 'hover:text-neutral-200'
+                    ? 'text-[#174EA6] bg-[#EAF3FF] font-semibold'
+                    : 'text-[#0B1F3A]/75 hover:text-[#174EA6] hover:bg-[#F1F3F5]'
                 }`}
               >
                 {item.label}
@@ -69,7 +69,7 @@ export const TopNav: React.FC<TopNavProps> = ({
           <button
             onClick={onOpenPictureStudio}
             title="Upload picture and choose unique Winter Arc background"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-md bg-neutral-900 hover:bg-neutral-800 text-sky-300 border border-neutral-800 hover:border-neutral-700 transition-all whitespace-nowrap"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-md bg-[#EAF3FF] hover:bg-[#d8e9ff] text-[#174EA6] border border-[#174EA6]/15 transition-all whitespace-nowrap"
           >
             <span>❄️</span>
             <span className="hidden sm:inline">Picture Studio</span>
@@ -81,11 +81,11 @@ export const TopNav: React.FC<TopNavProps> = ({
             title="Minimum Viable Day mode (20m Tech + 10m English + 5m Reflection) when university/internship or emergencies collapse the schedule"
             className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-md transition-all whitespace-nowrap ${
               mvdActive
-                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-sm'
-                : 'bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-800'
+                ? 'bg-[#EAF3FF] text-[#174EA6] border border-[#174EA6]/40 shadow-xs'
+                : 'bg-[#F1F3F5] hover:bg-[#e7eaee] text-[#0B1F3A] border border-[rgba(11,31,58,0.08)]'
             }`}
           >
-            <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
+            <ShieldAlert className="w-3.5 h-3.5 text-[#174EA6]" />
             <span className="hidden sm:inline">MVD</span>
             <span>{mvdActive ? 'Active' : 'Standby'}</span>
           </button>
@@ -94,28 +94,28 @@ export const TopNav: React.FC<TopNavProps> = ({
           <button
             onClick={onExportData}
             title="Export OS state to JSON backup"
-            className="p-1.5 text-neutral-400 hover:text-neutral-100 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-md transition-colors"
+            className="p-1.5 text-[#0B1F3A] hover:text-[#174EA6] bg-[#F1F3F5] hover:bg-[#e7eaee] border border-[rgba(11,31,58,0.08)] rounded-md transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
           </button>
 
           {/* Day indicator */}
-          <div className="font-mono text-xs tabular-nums text-neutral-400 px-2 py-1 bg-neutral-900 border border-neutral-800 rounded-md hidden lg:block">
+          <div className="font-mono text-xs tabular-nums text-[#0B1F3A] font-semibold px-2.5 py-1 bg-[#F1F3F5] border border-[rgba(11,31,58,0.08)] rounded-md hidden lg:block">
             Day {currentDay}/90
           </div>
         </div>
       </div>
 
       {/* Mobile nav bar row for small screens */}
-      <div className="md:hidden flex items-center gap-2 overflow-x-auto px-4 py-2 border-t border-neutral-800/60 bg-neutral-950/80 text-xs">
+      <div className="md:hidden flex items-center gap-1.5 overflow-x-auto px-4 py-2 border-t border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] text-xs">
         {navItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onSelectTab(item.id)}
             className={`px-2.5 py-1 whitespace-nowrap rounded text-xs transition-colors ${
               currentTab === item.id
-                ? 'bg-neutral-800 text-white font-medium'
-                : 'text-neutral-400 hover:text-neutral-200'
+                ? 'bg-[#EAF3FF] text-[#174EA6] font-semibold'
+                : 'text-[#0B1F3A]/70 hover:text-[#0B1F3A] hover:bg-[#F1F3F5]'
             }`}
           >
             {item.label}

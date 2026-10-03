@@ -193,7 +193,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans selection:bg-neutral-800 selection:text-white">
+    <div className="min-h-screen bg-[#F8F7F3] text-[#111827] flex flex-col font-sans selection:bg-[#EAF3FF] selection:text-[#0B1F3A]">
       {/* 3-Zone Top Navigation Bar */}
       <TopNav
         currentTab={activeTab}
@@ -281,21 +281,21 @@ export default function App() {
       </main>
 
       {/* Clean quiet footer */}
-      <footer className="border-t border-neutral-900 bg-neutral-950 py-6 text-xs text-neutral-500">
+      <footer className="border-t border-[rgba(11,31,58,0.08)] bg-[#F8F7F3] py-6 text-xs text-[#0B1F3A]/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2 font-mono text-[11px]">
-            <span className="text-neutral-400 font-semibold">WINTER ARC 2026</span>
+            <span className="text-[#0B1F3A] font-semibold">WINTER ARC 2026</span>
             <span>·</span>
             <span>Hussnain Ansari</span>
             <span>·</span>
             <span>02 Oct 2026 → 30 Dec 2026</span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] text-neutral-500">
+          <div className="flex items-center gap-4 text-[11px] text-[#0B1F3A]/60">
             <span>Learn · Practice · Build · Explain · Document · Improve</span>
             <button
               onClick={handleResetData}
-              className="text-neutral-500 hover:text-neutral-300 transition-colors"
+              className="text-[#0B1F3A]/50 hover:text-[#0B1F3A] transition-colors"
             >
               Reset Data
             </button>
