@@ -154,7 +154,64 @@ export function loadStoredState(): WinterArcState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL_STATE;
     const parsed = JSON.parse(raw);
-    return { ...INITIAL_STATE, ...parsed };
+
+    // Defensive schema checks to guarantee zero null/undefined crashes
+    const validatedWeeks = Array.isArray(parsed.weeks) && parsed.weeks.length > 0
+      ? parsed.weeks
+      : INITIAL_STATE.weeks;
+
+    const validatedBlocks = Array.isArray(parsed.operatingBlocks) && parsed.operatingBlocks.length > 0
+      ? parsed.operatingBlocks
+      : INITIAL_STATE.operatingBlocks;
+
+    const validatedHabits = Array.isArray(parsed.habitStack) && parsed.habitStack.length > 0
+      ? parsed.habitStack
+      : INITIAL_STATE.habitStack;
+
+    const validatedMilestones = Array.isArray(parsed.milestones) && parsed.milestones.length > 0
+      ? parsed.milestones
+      : INITIAL_STATE.milestones;
+
+    const validatedPhaseGates = Array.isArray(parsed.phaseGates) && parsed.phaseGates.length > 0
+      ? parsed.phaseGates
+      : INITIAL_STATE.phaseGates;
+
+    const validatedTraps = Array.isArray(parsed.traps) && parsed.traps.length > 0
+      ? parsed.traps
+      : INITIAL_STATE.traps;
+
+    const validatedMvdState = parsed.mvdState && typeof parsed.mvdState === 'object'
+      ? { ...INITIAL_STATE.mvdState, ...parsed.mvdState }
+      : INITIAL_STATE.mvdState;
+
+    const validatedTargets = parsed.activeWeeklyPillarTargets && typeof parsed.activeWeeklyPillarTargets === 'object'
+      ? { ...INITIAL_STATE.activeWeeklyPillarTargets, ...parsed.activeWeeklyPillarTargets }
+      : INITIAL_STATE.activeWeeklyPillarTargets;
+
+    const validatedAudit = parsed.finalAudit && typeof parsed.finalAudit === 'object'
+      ? {
+          ...INITIAL_STATE.finalAudit,
+          ...parsed.finalAudit,
+          reflections: {
+            ...INITIAL_STATE.finalAudit.reflections,
+            ...(parsed.finalAudit.reflections || {})
+          }
+        }
+      : INITIAL_STATE.finalAudit;
+
+    return {
+      ...INITIAL_STATE,
+      ...parsed,
+      weeks: validatedWeeks,
+      operatingBlocks: validatedBlocks,
+      habitStack: validatedHabits,
+      milestones: validatedMilestones,
+      phaseGates: validatedPhaseGates,
+      traps: validatedTraps,
+      mvdState: validatedMvdState,
+      activeWeeklyPillarTargets: validatedTargets,
+      finalAudit: validatedAudit,
+    };
   } catch (err) {
     console.error('Failed to load state from localStorage:', err);
     return INITIAL_STATE;
