@@ -37,13 +37,15 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Setup GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Build Production Assets
         env:
+          BASE_URL: ${{ steps.pages.outputs.base_path || '/winter-arc-2026/' }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: npm run build
-
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3

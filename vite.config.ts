@@ -8,26 +8,35 @@ import { defineConfig, Plugin } from 'vite';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Intelligent Base Path Resolution for GitHub Pages & Local Environments
-const resolveBasePath = (): string => {
+// Explicit Base Path Resolution for GitHub Pages & Local Environments
+const resolveBasePath = (command: string): string => {
+  // During local development (npm run dev), serve from root '/'
+  if (command === 'serve') {
+    return '/';
+  }
+
+  // Explicit override via environment variables
   if (process.env.VITE_BASE) return process.env.VITE_BASE;
-  if (process.env.BASE_URL) return process.env.BASE_URL;
+  if (process.env.BASE_URL) {
+    const raw = process.env.BASE_URL.trim();
+    if (raw) {
+      return raw.endsWith('/') ? raw : `${raw}/`;
+    }
+  }
 
   // Auto-detect GitHub Actions repository context
   if (process.env.GITHUB_REPOSITORY) {
     const repoName = process.env.GITHUB_REPOSITORY.split('/')[1];
     if (repoName) {
-      // User or Org pages (e.g. username.github.io) are served from domain root
       if (repoName.toLowerCase().endsWith('.github.io')) {
         return '/';
       }
-      // Project pages are served from sub-path /<repo-name>/
       return `/${repoName}/`;
     }
   }
 
-  // Fallback for local development and relative builds
-  return './';
+  // Explicit production default for Winter Arc GitHub Pages project site
+  return '/winter-arc-2026/';
 };
 
 // Vite plugin to generate 404.html from index.html for seamless GitHub Pages routing
@@ -48,19 +57,21 @@ const githubPagesSpaPlugin = (): Plugin => ({
   },
 });
 
-export default defineConfig({
-  base: resolveBasePath(),
-  plugins: [react(), tailwindcss(), githubPagesSpaPlugin()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, '.'),
+export default defineConfig(({ command }) => {
+  return {
+    base: resolveBasePath(command),
+    plugins: [react(), tailwindcss(), githubPagesSpaPlugin()],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '.'),
+      },
     },
-  },
-  server: {
-    // HMR is disabled in AI Studio via DISABLE_HMR env var.
-    // Do not modify—file watching is disabled to prevent flickering during agent edits.
-    hmr: process.env.DISABLE_HMR !== 'true',
-    // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
-    watch: process.env.DISABLE_HMR === 'true' ? null : {},
-  },
+    server: {
+      // HMR is disabled in AI Studio via DISABLE_HMR env var.
+      // Do not modify—file watching is disabled to prevent flickering during agent edits.
+      hmr: process.env.DISABLE_HMR !== 'true',
+      // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
+      watch: process.env.DISABLE_HMR === 'true' ? null : {},
+    },
+  };
 });
