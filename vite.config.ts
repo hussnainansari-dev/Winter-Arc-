@@ -35,8 +35,8 @@ const resolveBasePath = (command: string): string => {
     }
   }
 
-  // Explicit production default for Winter Arc GitHub Pages project site
-  return '/winter-arc-2026/';
+  // Explicit production default for Winter Arc GitHub Pages project site (hussnainansari-dev/Winter-Arc)
+  return '/Winter-Arc/';
 };
 
 // Vite plugin to generate 404.html from index.html for seamless GitHub Pages routing

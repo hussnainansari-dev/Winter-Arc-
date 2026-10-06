@@ -60,16 +60,16 @@ Deploy to GitHub Pages
 LIVE WEBSITE
 ```
 
-### Dynamic Vite Base Path
-In `vite.config.ts`, the base path resolves automatically:
-- **GitHub Pages Project Site** (`https://<username>.github.io/<repo>/`): Automatically detects `GITHUB_REPOSITORY` from GitHub Actions and configures `/<repo>/`.
-- **GitHub Pages User/Org Site** (`https://<username>.github.io/`): Automatically configures `/`.
-- **Local Dev / Standalone Builds**: Falls back to `./`.
-- **Manual Override**: Can be specified via `VITE_BASE` environment variable.
+### Base Path Resolution
+In `vite.config.ts`, the base path is configured deterministically:
+- **Local Dev Server (`npm run dev`)**: Serves from `/` for clean local development.
+- **Production Build (`npm run build`)**: Resolves to `/Winter-Arc/` (or dynamic repository from `GITHUB_REPOSITORY` / `BASE_URL`).
 
 ### GitHub Pages Setup Instructions
-1. Push your repository to GitHub.
+1. Push your latest code to the repository: `https://github.com/hussnainansari-dev/Winter-Arc`.
 2. In your GitHub repository, open **Settings** → **Pages**.
-3. Under **Build and deployment** → **Source**, select **GitHub Actions**.
-4. Push a commit or trigger the workflow manually under **Actions** → **Deploy Winter Arc 2026 to GitHub Pages**.
-5. Your site will be live at `https://<username>.github.io/<repository-name>/`.
+3. Under **Build and deployment** → **Source**, ensure **GitHub Actions** is selected.
+4. The workflow (`.github/workflows/deploy.yml`) builds and deploys `dist/`.
+5. Your live site is available at:
+   **`https://hussnainansari-dev.github.io/Winter-Arc/`**
+   *(Note: URL is case-sensitive and must be `Winter-Arc/`)*

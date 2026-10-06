@@ -41,9 +41,14 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      - name: Debug Pages Base Path
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Pages base path: ${{ steps.pages.outputs.base_path }}"
+
       - name: Build Production Assets
         env:
-          BASE_URL: ${{ steps.pages.outputs.base_path || '/winter-arc-2026/' }}
+          BASE_URL: ${{ steps.pages.outputs.base_path || '/Winter-Arc/' }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: npm run build
 
